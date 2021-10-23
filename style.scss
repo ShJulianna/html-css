@@ -1,0 +1,767 @@
+// макет шириной 2000 пикселей, масштаб браузера 90%
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+$colors: (
+    link-color: rgb(255, 255, 255),
+    link_hover-color: rgb(127, 182, 255),
+    menu_shadow-color: rgb(124, 134, 161),
+    menu_button_border-color: #233a72,
+    menu_button_link-color: #21366b,
+    main_background_h3-color: #0e1a35,
+    transparent-color: transparent,
+    main_background-color: #1a2641,
+    main_background_p-color: #8492af,
+    main_background_ul-color: #5584ff,
+    main_img_shadow:rgba(255, 255, 255, 0.1),
+    first_block_background-color: #fbfcfd,
+    border-top-color: #dadee7,
+    button_hover-color: rgb(125, 152, 201),
+    button-shadow: rgba(125, 152, 201, 0.5),
+    hand_pointer-color: rgba(230, 233, 239, 0.2),
+    hand_pointer_background-color:rgba(230, 233, 239, 0.4),
+    dashed_border-color: #5d6b87,
+    fourth_block_background-color: #f6f7fa,
+    h2-color: #475166,
+    after_element-color: #99b5ff,
+    fifth_block_box-shadow: #efeff1,
+);
+
+$font-size: (
+    main_font-size: 18px,
+    h1_font-size: 3.3rem,
+    h2_font-size: 3.15rem,
+    h1_media_font-size: 2.8rem,
+    h2_media_font-size: 2.5rem,
+    p_font-size: 2rem,
+    h3_font-size: 1.3rem,
+    li_font-size: 1.2rem,
+    mini_header_font-size: 1.7rem,
+    mini_blocks_font-size: 1.1rem,
+    price-secondary_font-size: 2.2rem,
+    price_font-size: 4rem
+);
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style-type: none;
+    font-size: map-get($font-size, main_font-size);
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: normal;
+}
+body {
+    max-width: 2000px;
+    margin: 0 auto;
+}
+
+
+@mixin menu_display($display, $justify-content, $align-items){
+    display: $display;
+    justify-content: $justify-content;
+    align-items: $align-items;
+}
+@mixin grid_display ($display, $grid-template-columns ) {
+    display: $display;
+    grid-template-columns: $grid-template-columns;
+}
+@mixin font($font-size, $font-weight, $colors){
+    font-size: $font-size;
+    font-weight: $font-weight;
+    color: $colors;
+}
+@mixin button ($width, $height, $border, $border-radius, $background) {
+    width: $width;
+    height: $height;
+    border: $border;
+    border-radius: $border-radius;
+    background-color: $background;
+}
+
+/* Главный фон */
+.header {
+    min-height: 1100px;
+    background: url('Images/Graph.png') left 0 top 200px / contain no-repeat, url('Images/Grid_img.png'), linear-gradient(map-get($colors, main_background_h3-color),map-get($colors, main_background_h3-color));
+}
+/* меню */
+
+.header_top {
+    @include menu_display(flex, space-between, stretch);
+    
+    > *:hover {
+        cursor: pointer;
+    }
+    #logo {
+        padding: 65px 8%;
+        max-width: 30%;
+    }
+    nav#menu_wrapper {
+        padding-right: 7.5%;
+        @media screen and (max-width: 1200px) {
+            padding-right: 0;
+        }
+        div.hidden_menu {
+            display: none;
+            @media screen and (max-width: 1200px) {
+                display: block;
+                width: 50px;
+                margin: 70px;
+                & img{
+                    width: 100%;
+                }
+            }
+        }
+        #menu {
+            @include menu_display(flex, flex-end, center);
+            min-height: 195px;
+            
+            > li > a {
+                padding-right: 52px;
+                color: map-get($colors, link-color);
+                &:hover {
+                    text-shadow: 10px 10px 3px map-get($colors, menu_shadow-color);
+                    color: map-get($colors, link_hover-color);
+                }
+            }
+            #menu_button {
+                @include button (130px, 50px, 2px solid map-get($colors, menu_button_border-color), 25px, map-get($colors, transparent-color));
+                @media screen and (max-width: 1200px){
+                    width: 70px;
+                    height: 30px;
+                }
+                &:hover{
+                    box-shadow: 10px 10px 5px map-get($colors, menu_shadow-color);
+                    background-color: rgb(21, 51, 90);
+                }
+                &:focus {
+                    outline: none;
+                }
+                > a {
+                    color: map-get($colors, main_background_ul-color);
+                }
+            }
+        }
+        // выпадающее меню
+        @media screen and (max-width: 1200px) {
+            #menu {
+                display: none;
+                position: relative;
+                li  {
+                    margin-bottom: 10px;
+                    > a {
+                        padding-right: 0;
+                    }
+                }
+            }
+            &:hover ul#menu {
+                display: block;
+                position: absolute;
+                top: 130px;
+                right: 70px;
+                text-align: right;
+                animation: myanim 1s alternate;
+                }
+            @keyframes myanim {
+                from {
+                   transform: translateY(-100px) scale(0.2);
+                } 
+                to {
+                   transform: translateY(0) scale(1); 
+                }
+            }
+        }
+    } 
+}
+
+/* Главная картинка */
+
+.header_img {
+    text-align: center;
+    padding-top: 70px;
+
+    > h1 {
+        @include font (map-get($font-size, h1_font-size), lighter, map-get($colors,link-color));
+        @media screen and (max-width: 1200px) {
+            font-size: map-get($font-size, h1_media_font-size);
+            padding-top: 30px;
+        }
+        @media screen and (max-width: 770px){
+            font-size: map-get($font-size, price-secondary_font-size);
+        }
+    }
+    > p {
+        @include font (map-get($font-size, p_font-size), normal, map-get($colors, main_background_p-color));
+        padding-top: 5px;
+    }
+    > #main_button {
+        @include button (205px, 50px, none, 50px, map-get($colors,main_background_ul-color));
+        margin: 80px auto 85px;
+        color: map-get($colors, link-color);
+
+        &:hover {
+            cursor: pointer;
+        }
+        &:focus {
+            outline: none;
+        }
+    } 
+    > div {
+        position: absolute;
+        left: 50%;
+        margin-left: -21%;
+        width: 42%;
+        box-shadow: -3px -3px 20px 20px map-get($colors, main_img_shadow);
+        > img {
+            width: 100%;
+        }
+        @media screen and (max-width: 1200px) {
+            margin-left: -33%;
+            width: 66%;
+        }
+        @media screen and (max-width: 770px){
+            margin-left: -40%;
+            width: 80%;
+        }
+    }
+}
+
+/* Первый блок */
+
+article.first_block {
+    @include grid_display(grid, 1fr 2fr 2fr 2fr 1fr);
+    padding-top: 200px;
+    min-height: 830px;
+    background-color: map-get($colors , first_block_background-color);
+    
+    @media screen and (max-width: 1200px){
+        @include grid_display(grid, 1fr 1fr 1fr);
+    }
+    .block {
+        padding: 60px;
+        text-align: center;
+        @media screen and (max-width: 1200px) {
+            padding: 20px;
+        }
+        @media screen and (max-width: 770px){
+            padding: 5px;
+        }
+        &:nth-child(1) {
+            grid-column-start: 2;
+            padding-left: 80px;
+            
+            @media screen and (max-width: 1200px){
+                grid-column-start: 1;
+                padding-left: 20px;
+            }
+            }
+        > div.img {
+            position: relative;
+            
+            &::after{
+                content: '';
+                display: block;
+                width: 220px;
+                border-top: 1px solid map-get($colors, border-top-color);
+                position: absolute;
+                right: -170px;
+                top: 50%;
+                @media screen and (max-width: 1200px) {
+                    & {
+                        width: 120px;
+                        right: -70px;
+                    }
+                }
+            }
+            > img{
+                max-width: 80px;
+            }
+        }
+        > h3 {
+            @include font(map-get($font-size, h3_font-size), 900, map-get($colors,main_background_h3-color));
+            padding-top: 55px;
+            letter-spacing: 0.9px;
+            
+            @media screen and (max-width: 1200px){
+                & {
+                    font-size: map-get($font-size, main_font-size);
+                }
+            }
+        }
+        p {
+            color: map-get($colors, main_background_p-color);
+            padding-top: 25px;
+            line-height: 1.5;
+            letter-spacing: 0.3px;
+
+            @media screen and (max-width: 770px) {
+                font-size: 0.8rem;
+            }
+        }
+        > button {
+            @include button(250px, 50px, 1px solid map-get($colors, border-top-color), 25px, map-get($colors,transparent-color));
+            margin-top: 50px;
+
+            &:hover {
+                background-color: map-get($colors, button_hover-color);
+                box-shadow: 10px 10px 3px map-get($colors,button-shadow);
+            }
+            >a {
+                @include font(map-get($font-size,main_font-size), bold, map-get($colors, main_background_h3-color));
+            }
+            @media screen and (max-width: 1200px) {
+                    width: 150px;
+            }
+        }
+        
+    }
+
+}
+
+/* Блок 2 */
+
+.second_block {
+    min-height: 770px;
+    background: url(Images/Grupa_tablet.png) right top 20px / auto 87% no-repeat;
+    @media screen and (max-width: 1200px) {
+        background: url(Images/Grupa_tablet.png) right bottom 20px / auto 57% no-repeat;
+    }
+    @media screen and (max-width: 770px){
+        background: url(Images/Grupa_tablet.png) right bottom 20px / auto 40% no-repeat;
+    }
+
+    > div.tablets{
+        max-width: 720px;
+        padding-top: 90px;
+        margin-left: 13.3%;
+        text-align: left;
+        @media screen and (max-width: 1200px){
+            max-width: 520px;
+            margin-left: 70px;
+        }
+        @media screen and (max-width: 770px){
+            max-width: 520px;
+            margin-left: 30px;
+        }
+        > h2 {
+            @include font(map-get($font-size, h1_font-size), lighter, map-get($colors, main_background_h3-color));
+            @media screen and (max-width: 1200px){
+                font-size: map-get($font-size, h2_media_font-size);
+            }
+            @media screen and (max-width: 770px){
+                font-size: map-get($font-size, price-secondary_font-size);
+            }
+        }
+        > p {
+            padding: 40px 20% 0 0;
+            line-height: 1.5;
+            color: map-get($colors, main_background_p-color);
+            @media screen and (max-width: 1200px){
+                & {
+                    padding: 20px 30px 0 0;
+                }
+            }
+        }
+        > ul {
+            padding-top: 20px;
+            color: map-get($colors, main_background_ul-color);
+            li {
+                padding: 35px 50px 0;
+                font-size: map-get($font-size, li_font-size);
+                position: relative;
+
+                &::before {
+                    position: absolute;
+                    content: "";
+                    width: 27px;
+                    height: 27px;
+                    display: block;
+                    background: url("Images/checked.png") center / contain no-repeat;
+                    left: 0;
+                }
+                @media screen and (max-width: 1200px){
+                    padding-top: 15px;
+                    padding-left: 25px;
+                }
+            }
+        }
+        
+    }
+
+}
+
+/* третий блок */
+
+article.third_block {
+    min-height: 755px;
+    background: url('Images/Graph.png') left top 100px / contain no-repeat, url('Images/Grid_img.png'), linear-gradient(map-get($colors, main_background_h3-color),map-get($colors, main_background_h3-color));
+    color: map-get($colors, link-color);
+    @include grid_display(grid, repeat(2, 1fr));
+    align-items: center;
+
+    > div {
+        padding-left: 15%;
+        @media screen and (max-width: 1200px) {
+            &{
+                padding-left: 10%;
+            }
+        }
+        &.mini_blocks {
+            @include grid_display(grid, repeat(2, 1fr));
+            column-gap: 20px;
+
+            > div.first_mini_block div.mini_header::after {
+                position: absolute;
+                content: url(Images/arrowkopia.png);
+                right: 30px;
+                @media screen and (max-width: 1200px){
+                    right: 10px;
+                }
+            }
+            div.mini_header {
+                @include font(map-get($font-size, mini_header_font-size), 500, map-get($colors, link-color));
+                padding: 10px 0 30px;
+                position: relative;
+                
+                @media screen and (max-width: 1200px){
+                    font-size: map-get($font-size, h3_font-size);
+                }
+            }
+            span.note{
+                @include font(map-get($font-size, mini_header_font-size), 500,map-get($colors, main_background_p-color));
+                
+                @media screen and (max-width: 1200px){
+                    font-size: map-get($font-size, li_font-size);
+                }
+            }
+            img {
+                width: 100%;
+                max-width: 390px;
+                &.task_img {
+                    margin: 35px 25px;
+                    
+                    @media screen and (max-width: 1200px){
+                        margin: 35px 10px;
+                    }
+                }
+            }
+            > div.first_mini_block  div.hand_pointer {
+                position: relative;
+
+                &::after {
+                    content: "";
+                    position: absolute;
+                    display: block;
+                    background: url("Images/hand-gesture.png") center / 35px no-repeat;
+                    @include button(75px, 75px, 10px solid map-get($colors, hand_pointer-color), 50%, map-get($colors, hand_pointer_background-color));
+                    left: 85%;
+                    top: 90px;
+                    @media screen and (max-width: 1200px){
+                        @include button(50px, 50px, 5px solid map-get($colors, hand_pointer-color), 50%, map-get($colors, hand_pointer_background-color));
+                         top: 60px;
+                    }
+                }
+            }
+            div.drop_block {
+                max-width: 390px;
+                max-height: 100px;
+                margin: 10px 0;
+                border: 1px dashed map-get($colors, dashed_border-color);
+                text-align: center;
+                padding: 8.5%;
+                @include font (map-get($font-size, mini_blocks_font-size), normal, map-get($colors,main_background_p-color));
+            }
+        }
+    }
+    > div.dragDrop_block {
+
+        > h2 {
+            @include font (map-get($font-size, h1_font-size), lighter, map-get($colors, link-color));
+            padding: 20px 0 0 5px;
+            @media screen and (max-width: 1200px){
+                font-size: map-get($font-size, h1_media_font-size);
+            }
+            @media screen and (max-width: 770px){
+                font-size: map-get($font-size, price-secondary_font-size);
+            }
+        }
+        > p {
+            padding: 40px 36% 0 5px;
+            line-height: 1.5;
+            @include font (map-get($font-size, main_font-size), bold, map-get($colors,  main_background_p-color));
+            @media screen and (max-width: 1200px){
+                    padding: 40px 20% 0 0;
+            }
+            @media screen and (max-width: 770px){
+                padding: 40px 10% 0 0;
+                font-size: 0.9rem;
+            }
+            img {
+                margin: 7px;
+            } 
+        } 
+    }
+    
+}
+
+/* четвертый блок */
+
+article.fourth_block {
+    min-height: 1100px;
+    background-color: map-get($font-size, fourth_block_background-color);
+
+    > h2 {
+        @include font(map-get($font-size,h2_font-size), lighter, map-get($colors, h2-color));
+        padding-top: 90px;
+        letter-spacing: 2px;
+        text-align: center;
+        @media screen and (max-width: 1200px){
+            font-size: map-get($font-size, h1_media_font-size);
+        }
+        @media screen and (max-width: 770px){
+            font-size: map-get($font-size, price-secondary_font-size);
+        }
+
+    }
+    > p {
+        text-align: center;
+        color: map-get($colors,main_background_p-color);
+        padding: 40px 25%;
+        line-height: 1.6;
+        @media screen and (max-width: 1200px){
+            & {
+                padding: 40px 10%;
+            }
+        }
+    } 
+    > div.psd_template {
+        background: url('Images/ScreenMockup.png') center top 40px / contain no-repeat;
+        min-height: 700px;
+        @include grid_display(grid, 1fr repeat(2, 3fr) 1fr);
+        column-gap: 30px;
+        @media screen and (max-width: 1200px){
+            @include grid_display(grid, repeat(2, 1fr));
+        }
+        h3 {
+            @include font(map-get($font-size, h3_font-size), bold, map-get($colors, main_background_h3-color));
+            padding-bottom: 10px;
+        }
+        div {
+            &.pointer {
+                border-top: 2px solid map-get($colors, main_background_ul-color);
+                max-width: 620px;
+                padding-bottom: 30px;
+                position: relative;
+            } 
+            &:nth-child(1) {
+                grid-column-start: 2;
+                padding-top: 130px;
+                margin-left:  40px;
+               
+                @media screen and (max-width: 1200px){
+                        grid-column-start: 1;
+                        padding-top: 100px;
+                }
+                @media screen and (max-width: 770px){
+                        padding-top: 0;
+                }
+                > div::after {
+                    content: '';
+                    position: absolute;
+                    left: 100%;
+                    bottom: 30%;
+                    @include button(35px, 35px, 7px solid map-get($colors, after_element-color), 50%, map-get($colors, main_background_ul-color));
+                }
+            }
+            > h3, p {
+                max-width: 270px;
+                display: inline-block;
+                line-height: 1.5;
+                font-weight: bold;
+                letter-spacing: 0.8px;
+            }
+            > p {
+                color: map-get($colors,main_background_p-color);
+            }
+        }
+        > div:nth-child(2) {
+            grid-column-start: -3;
+            align-self: flex-end;
+            padding-bottom: 120px;
+            text-align: right;
+            margin-right: 30px;
+            @media screen and (max-width: 1200px){
+                    grid-column-start: -2;
+                    padding-bottom: 200px;
+                    margin-right: 30px;
+            }
+            @media screen and (max-width: 770px){
+                    padding-bottom: 300px;
+            }
+            div {
+                right: -60px;
+                @media screen and (max-width: 1200px){
+                    right: -5px;
+                }
+                &::before {
+                    content: '';
+                    position: absolute;
+                    right: 100%;
+                    bottom: 30%;
+                    @include button(35px, 35px, 7px solid map-get($colors, after_element-color), 50%, map-get($colors, main_background_ul-color));
+                }
+            }
+        }
+    }
+}
+
+/* пятый блок */
+
+article.fifth_block {
+    min-height: 1000px;
+    > h2 {
+        @include font(map-get($font-size,h2_font-size), lighter, map-get($colors, main_background_h3-color));
+        padding-top: 40px;
+        text-align: center;
+        letter-spacing: 1.5px;
+    }
+    > div.pricing {
+        @include grid_display(grid, 1fr 2fr 2fr 2fr 1fr);
+        column-gap: 30px;
+        @media screen and (max-width: 1200px){
+            @include grid_display(grid, 1fr 1fr 1fr);
+        }
+        > div {
+            margin: 100px 50px;
+            padding: 35px 50px;
+            box-shadow: -20px -20px 20px 20px map-get($colors, fifth_block_box-shadow);
+            @media screen and (max-width: 1200px){
+                & {
+                    margin: 100px 20px;
+                    padding: 35px 10px;
+                }
+            }
+            @media screen and (max-width: 770px){
+                & {
+                    padding: 25px 5px;
+                }
+            }
+            &:nth-child(1) {
+                grid-column-start: 2;
+
+                @media screen and (max-width: 1200px){
+                    grid-column-start: 1;
+                }
+            }
+            > h4 {
+                @include font(map-get($font-size, h3_font-size), normal, map-get($colors, main_background_h3-color));
+                text-transform: uppercase;
+                text-align: center;
+            }
+            > div.price_month {
+                margin: 35px auto;
+                text-align: center;
+            }
+            span.pref {
+                @include font(map-get($font-size, price-secondary_font-size), bold, map-get($colors, main_background_h3-color)); 
+            }
+            span.price {
+                @include font(map-get($font-size, price_font-size), bold, map-get($colors, main_background_h3-color));
+            }
+            span.mon {
+                @include font(map-get($font-size, li_font-size), normal, map-get($colors, main_background_p-color));
+            }
+            ul {
+                padding-left: 50px;
+                color: map-get($colors, main_background_p-color);
+                @media screen and (max-width: 1200px){
+                        padding-left: 25px;
+                }
+                li {
+                    padding-bottom: 20px;
+                    position: relative;
+                    @media screen and (max-width: 770px){
+                        font-size: 0.8rem;
+                    }
+                    &.checked::before {
+                        position: absolute;
+                        content: "";
+                        display: block;
+                        width: 23px;
+                        height: 23px;
+                        background: url("Images/checked.png") center / contain no-repeat;
+                        position: absolute;
+                        left: -40px;
+                    }
+                    &.unchecked::before {
+                        position: absolute;
+                        content: "";
+                        display: block;
+                        width: 23px;
+                        height: 23px;
+                        background: url("Images/unchecked.png") center / contain no-repeat;
+                        left: -40px;
+                    }
+                }
+
+            }
+        }
+    }
+    > p {
+        margin: 0 auto;
+        color: map-get($colors, main_background_p-color);
+        max-width: 45%;
+        text-align: center;
+        line-height: 1.5;
+        @media screen and (max-width: 1200px){
+            max-width: 70%;
+        }
+    }
+    > button{
+        @include button(205px, 50px, none, 50px, map-get($colors, main_background_ul-color));
+        color: map-get($colors, link-color);
+        margin: 60px auto;
+        display: block;
+        position: relative;
+        
+        :hover {
+            cursor: pointer;
+        }
+        :focus {
+            outline: none;
+        }
+        > a {
+            color: map-get($colors, link-color);
+        }
+        ::after{
+            content: '';
+            display: block;
+            width: 220px;
+            border-top: 1px solid map-get($colors, border-top-color);
+            position: absolute;
+            right: -270px;
+            top: 50%;
+            @media screen and (max-width: 770px) {
+                & {
+                    width: 70px;
+                    right: -120px;
+                }
+            }
+        }
+        ::before{
+            content: '';
+            display: block;
+            width: 220px;
+            border-top: 1px solid map-get($colors, border-top-color);
+            position: absolute;
+            right: 250px;
+            top: 50%;
+            @media screen and (max-width: 770px) {
+                width: 70px;
+            }
+        }
+    } 
+}
+
